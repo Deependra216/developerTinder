@@ -1,0 +1,1 @@
+first connect to db then app.listen
