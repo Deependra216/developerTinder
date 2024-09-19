@@ -1,29 +1,32 @@
-const express= require('express')
+const express= require('express');
+const { adminAuth, userAuth } = require('./middlewares/auth');
 const app= express();
 
-app.use('/admin',(req,res,next)=>{
-    const token="xyz";
-    const isAdminAuth= token ==='xyz';
-    if(!isAdminAuth){
-        res.status(401).send("Unauthrized")
-    }
-    else{
-        next()
-    }
-})
-app.get("/admin/getalldata",(req,res,next)=>{
-    res.send("All Data Sent..")
-    next();
-  
-})
-
-app.get("/admin/deletealluser",(req,res,next)=>{
-    res.send("delete user..")
-    
-  
-})
-
+const connectDB = require('./config/database');
+const User = require('./models/user');
 const port=7000;
-app.listen(port,()=>{
-    console.log("server is successfully running on port: ", `${port}` )
-});
+
+app.post("/signup",async (req,res)=>{
+    //creating a new instance of the User model
+    const user = new User ({
+        firstName:"deependra",
+        lastName:"singh",
+        emailId:"deep@gmail.com",
+        password:"deep123"
+    })
+
+    await user.save();
+    res.send("User Added Successfully!!")
+
+})
+
+
+connectDB().then(()=>{
+    console.log("Database Connection Successfull!!")
+    app.listen(port,()=>{
+        console.log("server is successfully running on port: ", `${port}` )
+    });
+    
+}).catch((err)=>{
+    console.log("Database Connection Failed")
+})
