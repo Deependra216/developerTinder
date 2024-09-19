@@ -1,6 +1,5 @@
 const jwt =require('jsonwebtoken');
 const User = require('../models/user');
-
 // const adminAuth=(req,res,next)=>{
 //     const token="xyzm";
 //     const isAdminAuth= token ==='xyz';
