@@ -2,9 +2,10 @@ const express =require('express');
 const router = express.Router();
 const User = require('../models/user');
 const {validateSignUp} = require('../helpers/validation')
+const bcrypt =require("bcryptjs")
 
 router.post("/signup",async (req,res)=>{
-    console.log(req.body)
+    // console.log(req.body)
     //validate the data
     try{
     validateSignUp(req);
@@ -45,7 +46,7 @@ router.post("/login",async(req,res)=>{
             console.log(token)
             //add the token to cookie and send resopnse bacl to user 
             res.cookie("token",token,{expires: new Date(Date.now() + 2 * 3600000)})
-            res.send("Login Successfull!!")
+            res.send(user)
         }
         else{
             throw new Error("Password Not Valid!!")
