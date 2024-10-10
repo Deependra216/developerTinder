@@ -44,7 +44,7 @@ router.post("/login",async(req,res)=>{
 
         const isPasswordValid = await user.validatePassword(password)
         if(isPasswordValid){
-            const token = await  user.getJWT()
+            const token = await user.getJWT()
             console.log(token)
             //add the token to cookie and send resopnse back to user 
             res.cookie("token",token,{expires: new Date(Date.now() + 2 * 3600000)})
