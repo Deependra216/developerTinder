@@ -23,8 +23,10 @@ router.post("/signup",async (req,res)=>{
         gender,
         skills
     })        
-        await user.save();
-        res.send("User Added Successfully!!")
+        const savedUser = await user.save();
+        const token = await  savedUser.getJWT()
+        res.cookie("token",token,{expires: new Date(Date.now() + 2 * 3600000)})
+        res.json({message:"User Added Successfully!!",data:savedUser})
 }
 catch(err){
     res.status(400).send("Error: "+err.message);
@@ -44,7 +46,7 @@ router.post("/login",async(req,res)=>{
         if(isPasswordValid){
             const token = await  user.getJWT()
             console.log(token)
-            //add the token to cookie and send resopnse bacl to user 
+            //add the token to cookie and send resopnse back to user 
             res.cookie("token",token,{expires: new Date(Date.now() + 2 * 3600000)})
             res.send(user)
         }

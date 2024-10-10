@@ -35,7 +35,7 @@ userRouter.get('/user/connections',userAuth,async (req,res)=>{
             ]
 
         }).populate("fromUserId",USER_SAFE_DATA).populate("toUserId",USER_SAFE_DATA);
-        console.log(connectionRequest)
+    
 
         const data = connectionRequest.map((row)=>{
             if(row.fromUserId._id.toString() === loggedInUser._id.toString()){
@@ -43,7 +43,7 @@ userRouter.get('/user/connections',userAuth,async (req,res)=>{
             }
             return row.fromUserId
         })
-        console.log("same Id",data)
+        // console.log("same Id",data)
         res.json({data})
     }catch(err){
         res.status(400).send({message: err.message})
